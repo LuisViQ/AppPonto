@@ -1,4 +1,4 @@
-# 1. Visao Geral do Sistema
+ï»¿# 1. Visao Geral do Sistema
 
 O **AppPonto** e um aplicativo de gestao de pessoas, funcionarios e horarios semanais.
 
@@ -47,9 +47,9 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 1. `index.ts` registra o aplicativo.
 2. `App.tsx` monta os providers globais:
-   - `SafeAreaProvider`
-   - `GluestackUIProvider`
-   - `RealmProvider`
+    - `SafeAreaProvider`
+    - `GluestackUIProvider`
+    - `RealmProvider`
 3. `RealmProvider` abre o banco local via `realm.ts`.
 4. `AppContent` le `AppMeta.auth_token`.
 5. Se existir token, abre `ManagerScreen`.
@@ -62,8 +62,8 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 ### Schemas utilizados
 
-- `AppMeta` — estado da sessao (token, usuario, sync)
-- `Outbox` — fila offline
+- `AppMeta` â€” estado da sessao (token, usuario, sync)
+- `Outbox` â€” fila offline
 - `Person`
 - `UserAccount`
 - `JobPosition`
@@ -85,6 +85,7 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 - `ManagerScreen.tsx`
 - `manager/containers/ManagerContainer.tsx`
+- `manager/context/ManagerContext.tsx`
 - `manager/layout/ManagerLayout.tsx`
 
 ### Tabs principais (bottom bar)
@@ -116,9 +117,9 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 1. O usuario informa login e senha.
 2. `authService.login` executa `POST /auth/login`.
 3. Em caso de sucesso:
-   - Grava `auth_token`
-   - Grava `user_server_id`
-   - Grava `username`
+    - Grava `auth_token`
+    - Grava `user_server_id`
+    - Grava `username`
 4. O app navega para o `Manager`.
 
 ---
@@ -129,26 +130,30 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 - `manager/views/ManagerCreatePersonView.tsx`
 - `manager/hooks/useManagerActions.ts`
+- `manager/hooks/actions/useManagerPersonActions.ts`
 
 ### Validacoes
 
 - Nome obrigatorio
 - CPF obrigatorio e unico
-- Matricula obrigatoria e unica (se funcionario)
-- Cargo obrigatorio (se funcionario)
-- Admin exige `username` e `password`
+- Matricula obrigatoria e unica
+- Cargo obrigatorio
+- Username obrigatorio
+- Senha obrigatoria
 
 ### Persistencia
 
 - Criacao de `Person` no Realm
-- Criacao de `Employee` (se funcionario)
+- Criacao de `Employee`
+- Criacao de `UserAccount` (sempre)
 - Geracao de Outbox:
-  - `PERSON_UPSERT`
-  - `EMPLOYEE_UPSERT`
-- Se admin:
-  - Cria `UserAccount`
-  - `account_type = ADMIN` ou `BOTH`
-  - Outbox: `USER_ACCOUNT_UPSERT`
+    - `PERSON_UPSERT`
+    - `EMPLOYEE_UPSERT`
+    - `USER_ACCOUNT_UPSERT`
+
+**account_type**
+- `EMPLOYEE` se nao for admin
+- `BOTH` se for admin
 
 ---
 
@@ -157,7 +162,7 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 ### Arquivos envolvidos
 
 - `manager/views/ManagerCreateJobPositionView.tsx`
-- `manager/hooks/useManagerActions.ts`
+- `manager/hooks/actions/useManagerJobPositionActions.ts`
 
 ### Validacoes
 
@@ -166,11 +171,11 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 ### Acoes
 
-- Criar cargo ? `JOB_POSITION_UPSERT`
-- Editar cargo ? `JOB_POSITION_UPSERT`
+- Criar cargo -> `JOB_POSITION_UPSERT`
+- Editar cargo -> `JOB_POSITION_UPSERT`
 - Excluir cargo:
-  - Bloqueado se estiver em uso
-  - Outbox: `JOB_POSITION_DELETE`
+    - Bloqueado se estiver em uso
+    - Outbox: `JOB_POSITION_DELETE`
 
 ---
 
@@ -181,7 +186,6 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 - `manager/views/ManagerUsersListView.tsx`
 - `manager/hooks/useEmployeeDirectory.ts`
 - `manager/utils/directoryUtils.ts`
-- `manager/list/*`
 
 ### Estruturas geradas
 
@@ -219,7 +223,7 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 
 - `username`
 - `password`
-- `account_type` (`ADMIN`, `EMPLOYEE`, `BOTH`)
+- `account_type` (`EMPLOYEE`, `BOTH`)
 - `is_active`
 
 ### Regras
@@ -237,6 +241,7 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 - `manager/schedule/managerScheduleHandlers.ts`
 - `manager/schedule/scheduleHelpers.ts`
 - `manager/detail/DetailScheduleView.tsx`
+- `manager/detail/schedule/*`
 
 ### Modelo
 
@@ -310,15 +315,15 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 ### Sequencia
 
 1. `syncNow()` verifica:
-   - API base configurada
-   - Conectividade com a internet
-   - Endpoint `/health`
+    - API base configurada
+    - Conectividade com a internet
+    - Endpoint `/health`
 2. Push:
-   - Envia Outbox
-   - Marca acoes como `SENT` ou `FAILED`
+    - Envia Outbox
+    - Marca acoes como `SENT` ou `FAILED`
 3. Pull:
-   - Baixa dados por `updated_at`
-   - Aplica alteracoes no Realm
+    - Baixa dados por `updated_at`
+    - Aplica alteracoes no Realm
 
 ---
 
@@ -389,4 +394,5 @@ O sistema segue o modelo **offline-first**, armazenando todos os dados localment
 ### UI principal
 
 - `manager/containers/ManagerContainer.tsx`
+- `manager/context/ManagerContext.tsx`
 - `manager/layout/ManagerLayout.tsx`
