@@ -15,3 +15,6 @@ Como ler:
 1. Comece por ARCHITECTURE.md para entender o fluxo.
 2. Depois veja APP.md e API.md.
 3. Use FILE_INDEX.md como referencia rapida.
+
+Documentação mais completa em: 
+https://www.notion.so/Documenta-o-de-regras-da-aplica-o-2faa0c91d5718056b793f0d9042f62f6?source=copy_link
