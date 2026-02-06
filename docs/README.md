@@ -3,7 +3,7 @@ AppPonto — Documentation
 ![GitHub repo size](https://img.shields.io/github/repo-size/LuisViQ/AppPonto)
 ![GitHub last commit](https://img.shields.io/github/last-commit/LuisViQ/AppPonto)
 ![GitHub issues](https://img.shields.io/github/issues/LuisViQ/AppPonto)
-![GitHub license](https://img.shields.io/github/license/LuisViQ/AppPontoo)
+![GitHub license](https://img.shields.io/github/license/LuisViQ/AppPonto)
 
 ![Offline First](https://img.shields.io/badge/architecture-offline--first-blue)
 ![Mobile](https://img.shields.io/badge/platform-mobile-lightgrey)
